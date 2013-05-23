@@ -79,7 +79,7 @@ $(function() {
   });
 
   socket.on('welcome', function(msg) {
-	setFeedback("<span style='color: green'> Username available. You can begin chatting.</span>");
+	setFeedback("<span style='color: green'> Usuario Valido. Ya puedes hablar.</span>");
 	setCurrentUsers(msg.currentUsers)
     enableMsgInput(true);
 	enableUsernameField(false);
@@ -87,7 +87,7 @@ $(function() {
 
   socket.on('error', function(msg) {
 	  if (msg.userNameInUse) {
-		  setFeedback("<span style='color: red'> Username already in use. Try another name.</span>");
+		  setFeedback("<span style='color: red'> Usuario ya esta en uso. utiliza otro nombre.</span>");
 	  }
   });
   

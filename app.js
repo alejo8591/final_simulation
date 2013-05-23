@@ -14,9 +14,16 @@ var express = require('express')
   , socketio = require('socket.io')
   // Instanciando el socket
   , io = socketio.listen(server)
+  // Clases del MVC utilizadas
   , routes = require('./routes')
   , user = require('./routes/user')
   , path = require('path')
+  // Libreria para el encriptado AES
+  , aes = require('./aes/aes')
+  // Valores para aes
+  , pw = 'c00p3r6aykey7yaslasapd1ltdc00p3r'
+  , cip = 256
+  // route o controlador del MVC para la clase chat
   , chat = require('./routes/chat');
 
 // all environments
@@ -72,7 +79,7 @@ io.sockets.on('connection', function(socket) {
       // broadcast
       io.sockets.emit('message',
           {"source": srcUser,
-           "message": msg.message,
+           "message": aes.encrypt(msg.message, pw, cip),
            "target": msg.target});
     } else {
       // Look up the socket id
@@ -82,7 +89,7 @@ io.sockets.on('connection', function(socket) {
            "target": msg.target});
     }
   });
-  
+
   socket.on('disconnect', function() {
 		  var uName = socketsOfClients[socket.id];
 		  delete socketsOfClients[socket.id];
