@@ -10,7 +10,8 @@ var Aes = {};  // Aes namespace
 /**
  * AES Cipher function: encrypt 'input' state with Rijndael algorithm
  *   applies Nr rounds (10/12/14) using key schedule w for 'add round key' stage
- *
+ * AES función de cifrado: Estado cifrar 'input' con el algoritmo Rijndael
+ * Se aplica rondas NR (10/12/14) usanoo el key w para el "añadir clave de ronda '
  * @param {Number[]} input 16-byte (128-bit) input state array
  * @param {Number[][]} w   Key schedule as 2D byte-array (Nr+1 x Nb bytes)
  * @returns {Number[]}     Encrypted output state array
@@ -30,7 +31,7 @@ Aes.cipher = function(input, w) {    // main Cipher function [¤5.1]
     state = Aes.mixColumns(state, Nb);
     state = Aes.addRoundKey(state, w, round, Nb);
   }
-
+  
   state = Aes.subBytes(state, Nb);
   state = Aes.shiftRows(state, Nb);
   state = Aes.addRoundKey(state, w, Nr, Nb);

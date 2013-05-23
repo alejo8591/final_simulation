@@ -68,6 +68,9 @@ io.sockets.on('connection', function(socket) {
   });
 
   socket.on('message', function(msg) {
+    console.log('el mensaje que envia el usuario encriptrado en AES es: '+msg.message);
+    console.log('el mensaje que envia el usuario desencriptado en AES es: '+aes.decrypt(msg.message, pw, cip));
+    msg.message = aes.decrypt(msg.message, pw, cip);
     var srcUser;
     if (msg.inferSrcUser) {
       // Infer user name based on the socket id

@@ -11,6 +11,9 @@ function enableUsernameField(enable) {
 
 function appendNewMessage(msg) {
   var html;
+  console.log('El mensaje de respuesta de parte del servidor encriptado es: '+msg.message);
+  msg.message = Aes.Ctr.decrypt(msg.message, pw, cip);
+  console.log('El mensaje de respuesta de parte del servidor desencriptado es: '+msg.message);
   if (msg.target == "All") {
     html = "<span class='allMsg'>" + msg.source + " : " + msg.message + "</span><br/>"
   } else {
@@ -39,16 +42,17 @@ function setFeedback(fb) {
 function setUsername() {
 	myUserName = $('input#userName').val();
     socket.emit('set username', $('input#userName').val(), function(data) { console.log('emit set username', data); });
-    console.log('Set user name as ' + $('input#userName').val());
+    console.log('El usuario ingresado es: ' + $('input#userName').val());
 }
 
 function sendMessage() {
     var trgtUser = $('select#users').val();
+    console.log('El mensaje encriptado que se enviara al servidor es el siguiente: '+Aes.Ctr.encrypt($('input#msg').val(), pw, cip))
     socket.emit('message', 
                 {
                   "inferSrcUser": true,
                   "source": "",
-                  "message": $('input#msg').val(),
+                  "message": Aes.Ctr.encrypt($('input#msg').val(), pw, cip),
                   "target": trgtUser
                 });
 	$('input#msg').val("");
